@@ -13,31 +13,46 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  var changeTabScreen = [
+    WeatherDetailScreen(),
+    SearchLocationScreen(),
+    WeatherOverviewScreen()
+  ];
 
-  var changeTabScreen = [WeatherDetailScreen(),SearchLocationScreen(),WeatherOverviewScreen()];
-
-  var _page=0; //shows current page number
-
+  var _page = 0; //shows current page number
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor:Colors.red,
-        items: <Widget>[
-          Icon(Icons.home, size: 30),
-          Icon(Icons.search, size: 30),
-          Icon(Icons.beenhere_rounded, size: 30),
-        ],
-
-       onTap: (index) {
+      bottomNavigationBar: Container(
+        child: CurvedNavigationBar(
+          color: Color(0xFF17242D),
+          height: 50,
+          backgroundColor: Color(0xFF17242D),
+          items: <Widget>[
+            Icon(
+              Icons.home,
+              size: 30,
+              color: Colors.red,
+            ),
+            Icon(
+              Icons.favorite_border_outlined,
+              size: 30,
+              color: Colors.red,
+            ),
+            Icon(
+              Icons.align_horizontal_right_rounded,
+              size: 30,
+              color: Colors.red,
+            ),
+          ],
+          onTap: (index) {
             setState(() {
               _page = index;
             });
           },
-       ),
-
+        ),
+      ),
       body: changeTabScreen[_page],
     );
   }
