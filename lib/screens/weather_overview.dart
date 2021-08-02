@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
