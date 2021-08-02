@@ -19,7 +19,9 @@ class _TabsScreenState extends State<TabsScreen> {
     WeatherOverviewScreen()
   ];
 
-  var _page = 0; //shows current page number
+  var changeTabScreen = [WeatherDetailScreen(),SearchLocationScreen(),WeatherOverviewScreen()];
+
+  var _page=2; //shows current page number
 
   @override
   Widget build(BuildContext context) {
