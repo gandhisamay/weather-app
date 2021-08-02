@@ -1,62 +1,58 @@
-
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/widgets/loading_spinner.dart';
+import 'package:geocoder/geocoder.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../providers/location.dart';
+
+import 'package:provider/provider.dart';
 
 // import 'package:geocoding/geocoding.dart';
 // import 'package:geolocator/geolocator.dart';
 
-class WeatherOverviewScreen extends StatelessWidget {
+class WeatherOverviewScreen extends StatefulWidget {
   // const WeatherOverviewScreen({ Key? key }) : super(key: key);
 
+  @override
+  _WeatherOverviewScreenState createState() => _WeatherOverviewScreenState();
+}
+
+class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
   final textStyle1 = TextStyle(color: Colors.white, fontSize: 19);
   final textStyle2 = TextStyle(color: Colors.white, fontSize: 16);
+  var _isInit= false ;
+  var _isLoading =true;
 
- loc.LocationData currentLocation;
- double latitude;
- double longitude ;
-
-  Future<void> getLocation() async {
-    var location =new loc.Location();
-
-    //check if service enabled 
-    var serviceEnabled =await location.serviceEnabled();
-
-    if( ! serviceEnabled) {
-      serviceEnabled= await location.requestService();    
-    }
-
-    if(!serviceEnabled) {
-      return ;
-    }
+  @override
+  void initState() {
+    Provider.of<Location>(context, listen: false).combineAllData().then((_){
+       _isInit=true;
+    });
     
-    //ask for permission  
-     var _permissionGranted = await location.hasPermission();
+    super.initState();
+  }
 
-     if(_permissionGranted == loc.PermissionStatus.denied) {
-       _permissionGranted =await location.requestPermission();
-     }
-
-     if(_permissionGranted == loc.PermissionStatus.denied) {
-       return ;
-     }
-     
-     var currentLocation = await location.getLocation();
-
-     print(currentLocation); //LocationData<lat: 19.2322681, long: 72.8434758>
-
-     latitude= currentLocation.latitude;
-     longitude=currentLocation.longitude;   
+  @override
+  void didChangeDependencies() {
+    if(_isInit){
+      setState(() {
+       _isLoading=false;
+    });    
+    }  
+    _isInit= false;
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final weatherDataProvider =Provider.of<Location>(context);
+    
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: _isLoading? LoadingScreenOverview():Column(
           children: [
             Container(
               margin: EdgeInsets.symmetric(vertical: 15),
@@ -72,14 +68,13 @@ class WeatherOverviewScreen extends StatelessWidget {
                 )
               ]),
             ),
-            Text('San Fransisco,California ,USA', style: textStyle1),
+            // Text(locData.location, style: textStyle1),
+            Text(weatherDataProvider.location, style: textStyle1),
+            
             SizedBox(height: 25),
             CircleAvatar(
               radius: 80,
-             
-              child: ClipRRect(
-                
-              ),
+              child: ClipRRect(),
             ),
             SizedBox(height: 25),
             Chip(
@@ -91,7 +86,8 @@ class WeatherOverviewScreen extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text(
-              '20°C',
+              weatherDataProvider.temperature+'°C',
+              // 'hvjvuyuy',
               style: TextStyle(fontSize: 60, color: Colors.white),
             ),
             SizedBox(height: 5),
@@ -106,7 +102,8 @@ class WeatherOverviewScreen extends StatelessWidget {
                       color: Colors.blueGrey,
                     ),
                     Text(
-                      '5 km/h',
+                      weatherDataProvider.windSpeed,
+                      
                       style: textStyle2,
                     )
                   ],
@@ -119,7 +116,7 @@ class WeatherOverviewScreen extends StatelessWidget {
                       color: Colors.blueGrey,
                     ),
                     Text(
-                      '7%',
+                      weatherDataProvider.humidity,
                       style: textStyle2,
                     )
                   ],
@@ -132,11 +129,12 @@ class WeatherOverviewScreen extends StatelessWidget {
                       color: Colors.blueGrey,
                     ),
                     Text(
-                      '0.533 mBar',
+                       weatherDataProvider.airPressure,
                       style: textStyle2,
                     )
                   ],
                 )),
+                
               ],
             ),
             SizedBox(height: 30),
@@ -150,9 +148,8 @@ class WeatherOverviewScreen extends StatelessWidget {
                   Icons.arrow_forward_sharp,
                   color: Colors.white,
                 ),
-                onPressed: () async  {
-                  
-                  getLocation();
+                onPressed: () {
+                  // getLocation();
                 },
               ),
             ),
@@ -179,7 +176,10 @@ class WeatherOverviewScreen extends StatelessWidget {
                   Icons.arrow_forward_sharp,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  print('Button pressed');
+                  // Provider.of<Location>(context,listen: false).getWeatherData();
+                },
               ),
             ),
           ],
