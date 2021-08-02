@@ -23,8 +23,12 @@ class _MyAppState extends State<MyApp> {
           accentColor: Color(0xFF17242D),
           fontFamily: 'Raleway',
           textTheme: ThemeData.light().textTheme.copyWith(
-                bodyText2: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
-                bodyText1: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
+                // bodyText2: TextStyle(
+                //   color: Colors.white,
+                // ),
+                // bodyText1: TextStyle(
+                //   color: Colors.white,
+                // ),
                 headline6:
                     TextStyle(fontSize: 24, fontFamily: 'RobotoCondensed'),
               ),

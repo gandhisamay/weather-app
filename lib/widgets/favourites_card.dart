@@ -1,134 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/constants.dart';
 
 class FavouritesCard extends StatelessWidget {
-  final Color color = Color(0xFF152C39);
+  final Color color = Colors.white10;
   @override
   Widget build(BuildContext context) {
     return GridTile(
-      header: Row(
-        children: [
-          Text(
-            '22',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 50,
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 25,
+                ),
+                Text(
+                  "22",
+                  style: kTempStyle,
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                Icon(
+                  Icons.add,
+                  size: 40,
+                  color: Colors.white,
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.add,
-            size: 50,
-            color: Colors.white,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Austin',
-            style: TextStyle(
-              color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                "Austria",
+                style: kCityStyle,
+              ),
             ),
-          ),
-          Text(
-            'USA',
-            style: TextStyle(
-              color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                "USA",
+                style: kCountryStyle,
+              ),
             ),
-          ),
-        ],
-      ),
-      footer: Row(
-        children: [
-          Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 25,
-          ),
-          Text(
-            '17%',
-            style: TextStyle(
-              color: Colors.white,
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 25,
+                    top: 15,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      Text(
+                        '22',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontFamily: 'Raleway',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 25,
+                    top: 15,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      Text(
+                        '22',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontFamily: 'Raleway',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 25,
-          ),
-          Text(
-            '7km/h',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
-// Row(
-//               children: [
-//                 Text(
-//                   '22',
-//                   style: TextStyle(
-//                     color: Colors.white,
-//                     fontSize: 50,
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   width: 20,
-//                 ),
-//                 Icon(
-//                   Icons.add,
-//                   size: 50,
-//                   color: Colors.white,
-//                 ),
-//               ],
-//             ),
-//             Text(
-//               'Austin',
-//               style: TextStyle(
-//                 color: Colors.white,
-//               ),
-//             ),
-//             Text(
-//               'USA',
-//               style: TextStyle(
-//                 color: Colors.white,
-//               ),
-//             ),
-//             Row(children: [
-//               Icon(
-//                 Icons.add,
-//                 color: Colors.white,
-//                 size: 25,
-//               ),
-//               Text(
-//                 '17%',
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                 ),
-//               ),
-//               SizedBox(
-//                 width: 20,
-//               ),
-//               Icon(
-//                 Icons.add,
-//                 color: Colors.white,
-//                 size: 25,
-//               ),
-//               Text(
-//                 '7km/h',
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ])

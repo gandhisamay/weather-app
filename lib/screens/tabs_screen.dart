@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
+import '../constants.dart';
 import 'search_location_screen.dart';
 import 'weather_detail.dart';
 import 'weather_overview.dart';
@@ -27,7 +27,7 @@ class _TabsScreenState extends State<TabsScreen> {
       bottomNavigationBar: Container(
         child: CurvedNavigationBar(
           color: Color(0xFF17242D),
-          height: 50,
+          height: ktabSize,
           backgroundColor: Color(0xFF17242D),
           items: <Widget>[
             Icon(
