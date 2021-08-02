@@ -81,13 +81,11 @@ class SearchLocationScreen extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                   ),
-                  children: [
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                  
-                  ]
+                  children: favourites
+                      .map(
+                        (e) => FavouritesCard(e),
+                      )
+                      .toList(),
                 ),
               ),
             ),

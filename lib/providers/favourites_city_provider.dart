@@ -17,7 +17,36 @@ class FavouriteCity {
 }
 
 class FavouriteCityProvider with ChangeNotifier {
-  List<FavouriteCity> _favourites = [];
+  List<FavouriteCity> _favourites = [
+    FavouriteCity(
+      temp: 22,
+      city: "Austria",
+      country: "USA",
+      humidity: 17,
+      windSpeed: 7,
+    ),
+    FavouriteCity(
+      temp: 22,
+      city: "Mumbai",
+      country: "India",
+      humidity: 28,
+      windSpeed: 10,
+    ),
+    FavouriteCity(
+      temp: 22,
+      city: "Surat",
+      country: "India",
+      humidity: 12,
+      windSpeed: 5,
+    ),
+    FavouriteCity(
+      temp: 22,
+      city: "Florida",
+      country: "USA",
+      humidity: 23,
+      windSpeed: 2,
+    ),
+  ];
 
   List<FavouriteCity> get favourites {
     return [..._favourites];

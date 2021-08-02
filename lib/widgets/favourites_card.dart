@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/constants.dart';
+import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
 
 class FavouritesCard extends StatelessWidget {
+  final FavouriteCity favourite;
+
+  FavouritesCard(this.favourite);
   final Color color = Colors.white10;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class FavouritesCard extends StatelessWidget {
                   width: 15,
                 ),
                 Text(
-                  "22",
+                  favourite.temp.toString(),
                   style: kTempStyle,
                 ),
                 SizedBox(
@@ -38,14 +42,14 @@ class FavouritesCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Text(
-                "Austria",
+                favourite.city,
                 style: kCityStyle,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Text(
-                "USA",
+                favourite.country,
                 style: kCountryStyle,
               ),
             ),
@@ -64,7 +68,7 @@ class FavouritesCard extends StatelessWidget {
                         size: 25,
                       ),
                       Text(
-                        '22 %',
+                        '${favourite.humidity}%',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -88,7 +92,7 @@ class FavouritesCard extends StatelessWidget {
                         size: 25,
                       ),
                       Text(
-                        '22 km/h',
+                        '${favourite.windSpeed} km/h',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
