@@ -19,7 +19,7 @@ class FavouritesCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  width: 25,
+                  width: 15,
                 ),
                 Text(
                   "22",
@@ -36,14 +36,14 @@ class FavouritesCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 25.0),
+              padding: const EdgeInsets.only(left: 15.0),
               child: Text(
                 "Austria",
                 style: kCityStyle,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 25.0),
+              padding: const EdgeInsets.only(left: 15.0),
               child: Text(
                 "USA",
                 style: kCountryStyle,
@@ -53,7 +53,7 @@ class FavouritesCard extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                    left: 25,
+                    left: 10,
                     top: 15,
                   ),
                   child: Row(
@@ -64,10 +64,10 @@ class FavouritesCard extends StatelessWidget {
                         size: 25,
                       ),
                       Text(
-                        '22',
+                        '22 %',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24,
+                          fontSize: 16,
                           fontFamily: 'Raleway',
                         ),
                       ),
@@ -77,7 +77,7 @@ class FavouritesCard extends StatelessWidget {
                 Spacer(),
                 Container(
                   padding: EdgeInsets.only(
-                    right: 25,
+                    right: 10,
                     top: 15,
                   ),
                   child: Row(
@@ -88,10 +88,10 @@ class FavouritesCard extends StatelessWidget {
                         size: 25,
                       ),
                       Text(
-                        '22',
+                        '22 km/h',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24,
+                          fontSize: 16,
                           fontFamily: 'Raleway',
                         ),
                       ),

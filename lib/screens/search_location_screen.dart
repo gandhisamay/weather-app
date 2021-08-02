@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
+import 'package:provider/provider.dart';
 
 class SearchLocationScreen extends StatelessWidget {
   // const SearchLocationScreen({ Key? key }) : super(key: key);
@@ -9,6 +11,7 @@ class SearchLocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favourites = Provider.of<FavouriteCityProvider>(context).favourites;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -83,17 +86,11 @@ class SearchLocationScreen extends StatelessWidget {
                     FavouritesCard(),
                     FavouritesCard(),
                     FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                    FavouritesCard(),
-                  ],
+                  
+                  ]
                 ),
               ),
             ),
-
           ],
         ),
       ),
