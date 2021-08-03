@@ -4,6 +4,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart' as loc;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class Location with ChangeNotifier {
   int _temperature;
@@ -14,6 +15,7 @@ class Location with ChangeNotifier {
   int _woeid;
   String _location;
   int _humidity;
+  String _time;
 
   String get location {
     return _location;
@@ -32,8 +34,12 @@ class Location with ChangeNotifier {
   }
 
   String get humidity {
-    return _airPressure.toString();
+    return _humidity.toString();
   }
+
+  // String get currentTimedata {
+  //   return _time;
+  // }
 
   Future<void> getLocation() async {
     var location = new loc.Location();
@@ -105,11 +111,13 @@ class Location with ChangeNotifier {
 
     _airPressure = wData['air_pressure'];
 
-    // double hdity= wData['humidity'];
-    // _humidity=hdity.round();
+   _humidity= wData['humidity'];
 
-    // print('$_airPressure + $_temperature+ $_humidity');
+   //..get time data 
 
+  //  var now =json.decode(response.body)['time'] ;
+  //  _time= DateFormat("H").format(now).toString();
+  //  print(_time);
     notifyListeners();
   } 
 

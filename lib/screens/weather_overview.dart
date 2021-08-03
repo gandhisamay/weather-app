@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/widgets/loading_spinner.dart';
-import 'package:geocoder/geocoder.dart';
-// import 'package:geocoding/geocoding.dart';
-import 'package:location/location.dart' as loc;
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../providers/location.dart';
-
 import 'package:provider/provider.dart';
 
 // import 'package:geocoding/geocoding.dart';
@@ -45,6 +39,42 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
     super.didChangeDependencies();
   }
 
+  Widget _buildListTile({String text, Function onPressed}) {
+    return ListTile(
+              leading: Text(
+                text,
+                style: textStyle1,
+              ),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_sharp,                
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  print('Button pressed');
+                  onPressed();
+                },
+              ),
+            );
+  }
+
+  Widget _buildWeatherContainer(IconData icon, String text) {
+    return Container(
+                    child: Row(
+                  children: [
+                    Icon(
+                      icon,
+                      color: Colors.blueGrey,
+                    ),
+                    Text(
+                      text,
+                      
+                      style: textStyle2,
+                    )
+                  ],
+                ));
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -74,12 +104,13 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
             SizedBox(height: 25),
             CircleAvatar(
               radius: 80,
-              child: ClipRRect(),
+              child: ClipRRect(), //child should be an image of day/night according to time 
             ),
             SizedBox(height: 25),
             Chip(
               backgroundColor: Colors.purple,
               label: Text(
+                //text changes depending on time 
                 'Moonlight',
                 style: textStyle1,
               ),
@@ -87,101 +118,21 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
             SizedBox(height: 5),
             Text(
               weatherDataProvider.temperature+'°C',
-              // 'hvjvuyuy',
               style: TextStyle(fontSize: 60, color: Colors.white),
             ),
             SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                    child: Row(
-                  children: [
-                    Icon(
-                      Icons.reorder_rounded,
-                      color: Colors.blueGrey,
-                    ),
-                    Text(
-                      weatherDataProvider.windSpeed,
-                      
-                      style: textStyle2,
-                    )
-                  ],
-                )),
-                Container(
-                    child: Row(
-                  children: [
-                    Icon(
-                      Icons.pin_drop_rounded,
-                      color: Colors.blueGrey,
-                    ),
-                    Text(
-                      weatherDataProvider.humidity,
-                      style: textStyle2,
-                    )
-                  ],
-                )),
-                Container(
-                    child: Row(
-                  children: [
-                    Icon(
-                      Icons.alarm,
-                      color: Colors.blueGrey,
-                    ),
-                    Text(
-                       weatherDataProvider.airPressure,
-                      style: textStyle2,
-                    )
-                  ],
-                )),
-                
+               _buildWeatherContainer(Icons.reorder_rounded,weatherDataProvider.windSpeed+' km/h'),
+               _buildWeatherContainer( Icons.pin_drop_rounded,weatherDataProvider.humidity+' %'),
+               _buildWeatherContainer(Icons.alarm,weatherDataProvider.airPressure+' bar'),                              
               ],
             ),
-            SizedBox(height: 30),
-            ListTile(
-              leading: Text(
-                'Temperature',
-                style: textStyle1,
-              ),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_sharp,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // getLocation();
-                },
-              ),
-            ),
-            ListTile(
-              leading: Text(
-                'Wind Speed',
-                style: textStyle1,
-              ),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_sharp,
-                  color: Colors.white,
-                ),
-                onPressed: () {},
-              ),
-            ),
-            ListTile(
-              leading: Text(
-                'Source',
-                style: textStyle1,
-              ),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_sharp,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  print('Button pressed');
-                  // Provider.of<Location>(context,listen: false).getWeatherData();
-                },
-              ),
-            ),
+            SizedBox(height: 30),         
+             _buildListTile(text:'Temperature',onPressed:null),
+             _buildListTile(text:'Wind Speed',onPressed:null),
+             _buildListTile(text: 'Source' ,onPressed: null),
           ],
         ),
         backgroundColor: Colors.black,
