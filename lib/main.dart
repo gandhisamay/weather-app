@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_complete_guide/providers/location.dart';
+import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
 
 void main() => runApp(MyApp());
@@ -12,9 +13,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      theme: ThemeData(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx)=>Location(),)
+      ],
+          child: MaterialApp(
+        title: 'Weather App',
+        theme: ThemeData(
           // primarySwatch: Colors.blue,
           // accentColor: Colors.black,
           // primaryColor: Colors.black,

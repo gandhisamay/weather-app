@@ -1,201 +1,139 @@
 import 'package:flutter/material.dart';
-// import 'package:geocoding/geocoding.dart';
-import 'package:location/location.dart' as loc;
-import 'package:http/http.dart' as http;
+import 'package:flutter_complete_guide/widgets/loading_spinner.dart';
+import '../providers/location.dart';
+import 'package:provider/provider.dart';
 
 // import 'package:geocoding/geocoding.dart';
 // import 'package:geolocator/geolocator.dart';
 
-class WeatherOverviewScreen extends StatelessWidget {
-  final textStyle1 = TextStyle(
-    color: Colors.white,
-    fontSize: 19,
-    fontFamily: 'Raleway',
-  );
-  final textStyle2 = TextStyle(
-    color: Colors.white,
-    fontSize: 16,
-    fontFamily: 'Raleway',
-  );
+class WeatherOverviewScreen extends StatefulWidget {
+  // const WeatherOverviewScreen({ Key? key }) : super(key: key);
 
-  loc.LocationData currentLocation;
-  double latitude;
-  double longitude;
+  @override
+  _WeatherOverviewScreenState createState() => _WeatherOverviewScreenState();
+}
 
-  Future<void> getLocation() async {
-    var location = new loc.Location();
+class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
+  final textStyle1 = TextStyle(color: Colors.white, fontSize: 19);
+  final textStyle2 = TextStyle(color: Colors.white, fontSize: 16);
+  var _isInit= false ;
+  var _isLoading =true;
 
-    //check if service enabled
-    var serviceEnabled = await location.serviceEnabled();
+  @override
+  void initState() {
+    Provider.of<Location>(context, listen: false).combineAllData().then((_){
+       _isInit=true;
+    });
+    
+    super.initState();
+  }
 
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-    }
+  @override
+  void didChangeDependencies() {
+    if(_isInit){
+      setState(() {
+       _isLoading=false;
+    });    
+    }  
+    _isInit= false;
+    super.didChangeDependencies();
+  }
 
-    if (!serviceEnabled) {
-      return;
-    }
+  Widget _buildListTile({String text, Function onPressed}) {
+    return ListTile(
+              leading: Text(
+                text,
+                style: textStyle1,
+              ),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_sharp,                
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  print('Button pressed');
+                  onPressed();
+                },
+              ),
+            );
+  }
 
-    //ask for permission
-    var _permissionGranted = await location.hasPermission();
-
-    if (_permissionGranted == loc.PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-    }
-
-    if (_permissionGranted == loc.PermissionStatus.denied) {
-      return;
-    }
-
-    var currentLocation = await location.getLocation();
-
-    print(currentLocation); //LocationData<lat: 19.2322681, long: 72.8434758>
-
-    latitude = currentLocation.latitude;
-    longitude = currentLocation.longitude;
+  Widget _buildWeatherContainer(IconData icon, String text) {
+    return Container(
+                    child: Row(
+                  children: [
+                    Icon(
+                      icon,
+                      color: Colors.blueGrey,
+                    ),
+                    Text(
+                      text,
+                      
+                      style: textStyle2,
+                    )
+                  ],
+                ));
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final weatherDataProvider =Provider.of<Location>(context);
+    
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 15),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(
-                    Icons.location_city,
-                    color: Colors.blueGrey,
-                  ),
-                  const Text(
-                    'Your Location Now ',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  )
-                ]),
-              ),
-              Text(
-                'San Fransisco,California ,USA',
+        body: _isLoading? LoadingScreenOverview():Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(
+                  Icons.location_city,
+                  color: Colors.blueGrey,
+                ),
+                const Text(
+                  'Your Location Now ',
+                  style: TextStyle(color: Colors.grey),
+                )
+              ]),
+            ),
+            // Text(locData.location, style: textStyle1),
+            Text(weatherDataProvider.location, style: textStyle1),
+            
+            SizedBox(height: 25),
+            CircleAvatar(
+              radius: 80,
+              child: ClipRRect(), //child should be an image of day/night according to time 
+            ),
+            SizedBox(height: 25),
+            Chip(
+              backgroundColor: Colors.purple,
+              label: Text(
+                //text changes depending on time 
+                'Moonlight',
                 style: textStyle1,
               ),
-              SizedBox(
-                height: 25,
-              ),
-              CircleAvatar(
-                radius: 80,
-                child: ClipRRect(),
-              ),
-              SizedBox(height: 25),
-              Chip(
-                backgroundColor: Colors.purple,
-                label: Text(
-                  'Moonlight',
-                  style: textStyle1,
-                ),
-              ),
-              SizedBox(height: 5),
-              Text(
-                '20°C',
-                style: TextStyle(
-                  fontSize: 60,
-                  color: Colors.white,
-                  fontFamily: 'Raleway',
-                ),
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                      child: Row(
-                    children: [
-                      Icon(
-                        Icons.reorder_rounded,
-                        color: Colors.blueGrey,
-                      ),
-                      Text(
-                        '5 km/h',
-                        style: textStyle2,
-                      )
-                    ],
-                  )),
-                  Container(
-                      child: Row(
-                    children: [
-                      Icon(
-                        Icons.pin_drop_rounded,
-                        color: Colors.blueGrey,
-                      ),
-                      Text(
-                        '7%',
-                        style: textStyle2,
-                      )
-                    ],
-                  )),
-                  Container(
-                      child: Row(
-                    children: [
-                      Icon(
-                        Icons.alarm,
-                        color: Colors.blueGrey,
-                      ),
-                      Text(
-                        '0.533 mBar',
-                        style: textStyle2,
-                      )
-                    ],
-                  )),
-                ],
-              ),
-              SizedBox(height: 30),
-              ListTile(
-                leading: Text(
-                  'Temperature',
-                  style: textStyle1,
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_sharp,
-                    color: Colors.white,
-                  ),
-                  onPressed: () async {
-                    getLocation();
-                  },
-                ),
-              ),
-              ListTile(
-                leading: Text(
-                  'Wind Speed',
-                  style: textStyle1,
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_sharp,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              ListTile(
-                leading: Text(
-                  'Source',
-                  style: textStyle1,
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_sharp,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              weatherDataProvider.temperature+'°C',
+              style: TextStyle(fontSize: 60, color: Colors.white),
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+               _buildWeatherContainer(Icons.reorder_rounded,weatherDataProvider.windSpeed+' km/h'),
+               _buildWeatherContainer( Icons.pin_drop_rounded,weatherDataProvider.humidity+' %'),
+               _buildWeatherContainer(Icons.alarm,weatherDataProvider.airPressure+' bar'),                              
+              ],
+            ),
+            SizedBox(height: 30),         
+             _buildListTile(text:'Temperature',onPressed:null),
+             _buildListTile(text:'Wind Speed',onPressed:null),
+             _buildListTile(text: 'Source' ,onPressed: null),
+          ],
         ),
       ),
     );
