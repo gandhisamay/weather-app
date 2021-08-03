@@ -21,7 +21,7 @@ class _TabsScreenState extends State<TabsScreen> {
     WeatherOverviewScreen()
   ];
 
-  var _page = 2; //shows current page number
+  var _page = 0; //shows current page number
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 color: Colors.red,
               ),
               Icon(
-                Icons.align_horizontal_right_rounded,
+                Icons.add,
                 size: 30,
                 color: Colors.red,
               ),
