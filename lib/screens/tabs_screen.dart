@@ -46,7 +46,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 color: Colors.red,
               ),
               Icon(
-                Icons.align_horizontal_right_rounded,
+                Icons.add,
                 size: 30,
                 color: Colors.red,
               ),

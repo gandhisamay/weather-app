@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
               backgroundColor: Colors.red,
             )),
         home: TabsScreen(),
+
       ),
     );
   }
