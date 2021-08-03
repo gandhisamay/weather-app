@@ -40,7 +40,9 @@ class SearchLocationScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: inputLocationController,
-                      onSubmitted: (_) {},
+                      onSubmitted: (_) {
+                        
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,

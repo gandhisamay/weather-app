@@ -84,15 +84,38 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
     
     return SafeArea(
       child: Scaffold(
-        body: _isLoading? LoadingScreenOverview():Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 15),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Icon(
-                  Icons.location_city,
-                  color: Colors.blueGrey,
+        body: SingleChildScrollView(
+          child: _isLoading? LoadingScreenOverview():Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 15),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Icon(
+                    Icons.location_city,
+                    color: Colors.blueGrey,
+                  ),
+                  const Text(
+                    'Your Location Now ',
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ]),
+              ),
+              // Text(locData.location, style: textStyle1),
+              Text(weatherDataProvider.location, style: textStyle1),
+              
+              SizedBox(height: 25),
+              CircleAvatar(
+                radius: 80,
+                child: ClipRRect(), //child should be an image of day/night according to time 
+              ),
+              SizedBox(height: 25),
+              Chip(
+                backgroundColor: Colors.purple,
+                label: Text(
+                  //text changes depending on time 
+                  'Moonlight',
+                  style: textStyle1,
                 ),
                 const Text(
                   'Your Location Now ',
