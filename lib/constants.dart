@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const double ktabSize = 50;
+
 const TextStyle kTempStyle = TextStyle(
   color: Colors.white,
   fontSize: 50,

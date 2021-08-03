@@ -41,6 +41,7 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
 
   Widget _buildListTile({String text, Function onPressed}) {
     return ListTile(
+      
               leading: Text(
                 text,
                 style: textStyle1,
@@ -79,6 +80,7 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
   Widget build(BuildContext context) {
 
     final weatherDataProvider =Provider.of<Location>(context);
+    final deviceHeight =MediaQuery.of(context).size.height;
     
     return SafeArea(
       child: Scaffold(
@@ -103,7 +105,7 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
             
             SizedBox(height: 25),
             CircleAvatar(
-              radius: 80,
+              radius: deviceHeight*0.1,
               child: ClipRRect(), //child should be an image of day/night according to time 
             ),
             SizedBox(height: 25),
@@ -118,21 +120,32 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
             SizedBox(height: 5),
             Text(
               weatherDataProvider.temperature+'°C',
-              style: TextStyle(fontSize: 60, color: Colors.white),
+              style: TextStyle(fontSize: deviceHeight*0.07, color: Colors.white),
             ),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-               _buildWeatherContainer(Icons.reorder_rounded,weatherDataProvider.windSpeed+' km/h'),
-               _buildWeatherContainer( Icons.pin_drop_rounded,weatherDataProvider.humidity+' %'),
-               _buildWeatherContainer(Icons.alarm,weatherDataProvider.airPressure+' bar'),                              
-              ],
+            SizedBox(height: deviceHeight*0.03),
+            Container(
+              height: deviceHeight*0.05,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                 _buildWeatherContainer(Icons.reorder_rounded,weatherDataProvider.windSpeed+' km/h'),
+                 _buildWeatherContainer( Icons.pin_drop_rounded,weatherDataProvider.humidity+' %'),
+                 _buildWeatherContainer(Icons.alarm,weatherDataProvider.airPressure+' bar'),                              
+                ],
+              ),
             ),
-            SizedBox(height: 30),         
-             _buildListTile(text:'Temperature',onPressed:null),
-             _buildListTile(text:'Wind Speed',onPressed:null),
-             _buildListTile(text: 'Source' ,onPressed: null),
+            SizedBox(height: deviceHeight*0.05),    
+                 
+             Container(
+               height: deviceHeight*0.22,
+               child: Column(
+                 children: [
+                   _buildListTile(text:'Temperature',onPressed:null),
+                   _buildListTile(text:'Wind Speed',onPressed:null),
+                   _buildListTile(text: 'Source' ,onPressed: null),
+                 ],
+               ),
+             ),
           ],
         ),
       ),
