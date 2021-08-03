@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
+import 'package:flutter_complete_guide/widgets/favourites_card.dart';
+import '../constants.dart';
+import 'package:provider/provider.dart';
 
 class SearchLocationScreen extends StatelessWidget {
   // const SearchLocationScreen({ Key? key }) : super(key: key);
@@ -7,12 +11,12 @@ class SearchLocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.blue,
-        body: Column(
+    final favourites = Provider.of<FavouriteCityProvider>(context).favourites;
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-
             Container(
               margin: EdgeInsets.only(
                 top: 53,
@@ -51,6 +55,7 @@ class SearchLocationScreen extends StatelessWidget {
                         hintStyle: TextStyle(
                           color: Colors.white54,
                           fontSize: 20,
+                          fontFamily: 'Raleway',
                         ),
                       ),
                     ),
@@ -63,91 +68,27 @@ class SearchLocationScreen extends StatelessWidget {
                 ],
               ),
             ),
-
-            Container(
-              height: 590,
-              color: Colors.black,
-              child: GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //A delegate that controls the layout of the children within the [GridView].
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 /
-                      2, //The ratio of the cross-axis to the main-axis extent of each child.),
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                ),
-                children: [
-                  GridTile(
-                    header: Row(
-                      children: [
-                        Text(
-                          '22',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 50,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Icon(
-                          Icons.add,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Austin',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          'USA',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    footer: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                        Text(
-                          '17%',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                        Text(
-                          '7km/h',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+            SingleChildScrollView(
+              child: Container(
+                height: (MediaQuery.of(context).size.height - ktabSize - 103),
+                child: GridView(
+                  padding: EdgeInsets.all(10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //A delegate that controls the layout of the children within the [GridView].
+                    crossAxisCount: 2,
+                    childAspectRatio:
+                        1.25, //The ratio of the cross-axis to the main-axis extent of each child.),
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
                   ),
-                ],
+                  children: favourites
+                      .map(
+                        (e) => FavouritesCard(e),
+                      )
+                      .toList(),
+                ),
               ),
             ),
-
           ],
         ),
       ),

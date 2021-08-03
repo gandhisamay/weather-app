@@ -135,7 +135,6 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
              _buildListTile(text: 'Source' ,onPressed: null),
           ],
         ),
-        backgroundColor: Colors.black,
       ),
     );
   }
