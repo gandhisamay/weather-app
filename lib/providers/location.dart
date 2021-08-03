@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
-// import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
 class Location with ChangeNotifier {
   int _temperature;
