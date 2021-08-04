@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
+import 'package:flutter_complete_guide/providers/location.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
 
 class SearchLocationScreen extends StatelessWidget {
-  // const SearchLocationScreen({ Key? key }) : super(key: key);
-
   final inputLocationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final favourites = Provider.of<FavouriteCityProvider>(context).favourites;
+    final locationProvider = Provider.of<Location>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -39,9 +39,12 @@ class SearchLocationScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextField(
-                      controller: inputLocationController,
+                      controller: locationProvider.inputLocationController,
                       onSubmitted: (_) {
-                        
+                        print("1");
+                        print(locationProvider.inputLocationController.text);
+                        locationProvider.getLocationByQuery(
+                            locationProvider.inputLocationController.text);
                       },
                       style: TextStyle(
                         fontSize: 20,

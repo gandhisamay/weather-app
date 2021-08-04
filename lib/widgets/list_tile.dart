@@ -18,9 +18,10 @@ class BuildListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 1,
       color: Color(0xFF17242D),
       child: Container(
+        padding: EdgeInsets.all(4),
         height: 50,
         child: Row(
           children: [

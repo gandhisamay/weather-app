@@ -3,6 +3,15 @@ import 'package:flutter_complete_guide/constants.dart';
 
 class WeatherCard extends StatelessWidget {
   // const WeatherCard({ Key? key }) : super(key: key);
+  final String temp;
+  final String time;
+  final String weather;
+
+  WeatherCard({
+    @required this.temp,
+    @required this.time,
+    @required this.weather,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class WeatherCard extends StatelessWidget {
                 vertical: 4,
               ),
               child: Text(
-                '10 AM',
+                time,
                 style: kCountryStyle,
               ),
             ),
@@ -37,7 +46,7 @@ class WeatherCard extends StatelessWidget {
               color: Color(0xFF17242D),
             ),
             Text(
-              '19°',
+              temp,
               style: kCityStyle,
             )
           ],
