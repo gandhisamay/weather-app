@@ -59,7 +59,8 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     final weatherDataProvider = Provider.of<Location>(context);
     final minTemps = weatherDataProvider.minTemps5days;
     final maxTemps = weatherDataProvider.maxTemps5days;
-    final weatherCardData = weatherDataProvider.weatherCardDataMain;
+    final weatherCardData = weatherDataProvider.weatherCardData;
+    print("Weather Card Data ${weatherDataProvider.weatherCardData}");
 
     List<Widget> buildTile(min, max) {
       List<Widget> tiles = [];
@@ -157,9 +158,21 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          WeatherCard(temp: weatherCardData[0][1], time: weatherCardData[0][2], weather: weatherCardData[0][0],),
-                          WeatherCard(temp: weatherCardData[0][1], time: weatherCardData[0][2], weather: weatherCardData[0][0],),
-                          WeatherCard(temp: weatherCardData[0][1], time: weatherCardData[0][2], weather: weatherCardData[0][0],),
+                          WeatherCard(
+                            temp: weatherCardData[0][1],
+                            time: weatherCardData[0][2],
+                            weather: weatherCardData[0][0],
+                          ),
+                          WeatherCard(
+                            temp: weatherCardData[1][1],
+                            time: weatherCardData[1][2],
+                            weather: weatherCardData[1][0],
+                          ),
+                          WeatherCard(
+                            temp: weatherCardData[2][1],
+                            time: weatherCardData[2][2],
+                            weather: weatherCardData[2][0],
+                          ),
                         ],
                       ),
                     ),

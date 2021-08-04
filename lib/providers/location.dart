@@ -16,7 +16,7 @@ class Location with ChangeNotifier {
   List<double> _minTemps = [];
   List<double> _maxTemps = [];
   var inputLocationController = TextEditingController();
-  List<List<String>> _weatherCardData;
+  dynamic weatherCardData = [];
 
   String get location {
     return _location;
@@ -51,9 +51,9 @@ class Location with ChangeNotifier {
     return [..._maxTemps];
   }
 
-  List<List<String>> get weatherCardDataMain {
-    return [..._weatherCardData];
-  }
+  // List<List<String>> get weatherCardDataMain {
+  //   return [...weatherCardData];
+  // }
 
   Future<void> getLocation() async {
     var location = new loc.Location();
@@ -98,39 +98,6 @@ class Location with ChangeNotifier {
     _woeid = json.decode(response.body)[0]['woeid'];
     print(_woeid);
     print(_location);
-    final date = DateTime.now().toString();
-    String year = date.substring(0, 4);
-    String month = date.substring(5, 7);
-    String day = date.substring(8, 10);
-    final urlDaily = Uri.parse(
-        "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day");
-    final responseDaily = await http.get(urlDaily);
-    final resDaily = json.decode(responseDaily.body);
-    print(resDaily);
-
-    for (int i = 0; i < 3; i++) {
-      if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
-        _weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
-        ]);
-      } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
-        _weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
-        ]);
-      } else {
-        _weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
-        ]);
-      }
-    }
-
-    print("!");
     notifyListeners();
   }
 
@@ -164,6 +131,40 @@ class Location with ChangeNotifier {
       _minTemps.add(consolidatedWeather[i]['min_temp']);
       _maxTemps.add(consolidatedWeather[i]['max_temp']);
     }
+
+    final date = DateTime.now().toString();
+    String year = date.substring(0, 4);
+    String month = date.substring(5, 7);
+    String day = date.substring(8, 10);
+    final urlDaily = Uri.parse(
+        "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day");
+    final responseDaily = await http.get(urlDaily);
+    final resDaily = json.decode(responseDaily.body);
+    print(resDaily);
+
+    for (int i = 0; i < 3; i++) {
+      if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
+        weatherCardData.add([
+          resDaily[i]["weather_state_name"],
+          '${resDaily[i]["the_temp"]} °C',
+          '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
+        ]);
+      } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
+        weatherCardData.add([
+          resDaily[i]["weather_state_name"],
+          '${resDaily[i]["the_temp"]} °C',
+          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
+        ]);
+      } else {
+        weatherCardData.add([
+          resDaily[i]["weather_state_name"],
+          '${resDaily[i]["the_temp"]} °C',
+          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
+        ]);
+      }
+    }
+
+    print("!");
     notifyListeners();
   }
 
@@ -200,19 +201,19 @@ class Location with ChangeNotifier {
 
     for (int i = 0; i < 3; i++) {
       if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
-        _weatherCardData.add([
+        weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
         ]);
       } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
-        _weatherCardData.add([
+        weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
         ]);
       } else {
-        _weatherCardData.add([
+        weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
