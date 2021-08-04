@@ -1,188 +1,181 @@
 //1st screen in the ui image
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/location.dart';
+import 'package:flutter_complete_guide/widgets/loading_spinner.dart';
 import '../constants.dart';
 import '../widgets/row_card_scroll.dart';
+import 'package:provider/provider.dart';
+import '../widgets/list_tile.dart';
+import '../widgets/weather_container.dart';
 
-class WeatherDetailScreen extends StatelessWidget {
-  // const WeatherDetailScreen({ Key? key }) : super(key: key);
+class WeatherDetailScreen extends StatefulWidget {
+  @override
+  _WeatherDetailScreenState createState() => _WeatherDetailScreenState();
+}
+
+class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
+  final Map<String, String> dayData = {
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday",
+    "7": "Sunday",
+  };
+
+  String getDay(int number) {
+    if (number >= 1 && number <= 7) {
+      return dayData[number.toString()];
+    } else {
+      return dayData[(number - 7).toString()];
+    }
+  }
+
+  var _isInit = false;
+  var _isLoading = true;
+
+  void initState() {
+    Provider.of<Location>(context, listen: false).combineAllData().then((_) {
+      _isInit = true;
+    });
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final weatherDataProvider = Provider.of<Location>(context);
+    final minTemps = weatherDataProvider.minTemps5days;
+    final maxTemps = weatherDataProvider.maxTemps5days;
+
+    List<Widget> buildTile(min, max) {
+      List<Widget> tiles = [];
+      for (int i = 0; i <= 4; i++) {
+        tiles.add(
+          BuildListTile(
+            text: getDay(Provider.of<Location>(context).dayNumber + i),
+            maxTemp: min[i].toStringAsFixed(1),
+            minTemp: max[i].toStringAsFixed(1),
+          ),
+        );
+      }
+      return tiles;
+    }
+
     final deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFF17242D),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                      // height: deviceHeight*0.4,
-                      margin: EdgeInsets.all(30),
-                      child: Column(
-                        children: [
-                          Text('San Fransico', style: kCityStyle),
-                          Text('18°',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: deviceHeight * 0.1)),
-                          Chip(
-                            backgroundColor: Colors.purple,
-                            label: Text(
-                              'Cloudy',
-                            ),
-                            elevation: 5,
-                          ),
-                        ],
-                      )),
-                  Card(
-                    elevation: 5,
-                    child: Text('Image here '),
-                  ),
-                ],
-              ),
-              SizedBox(height: deviceHeight * 0.007),
-              Card(
-                elevation: 6,
-                color: Color(0xFF17242D),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildWeatherContainer(icon: Icons.reorder_rounded, text: '8 km/h'),
-                      _buildWeatherContainer(icon: Icons.pin_drop_rounded, text: '54 %'),
-                      _buildWeatherContainer(icon: Icons.alarm, text: '1098 bar'),
-                    ],
-                  ),
-                ),
-              ),
-              // SizedBox(height: deviceHeight * 0.06),
-              Container(
-                child: Text('Chart here ..'),
-                height: deviceHeight * 0.1,
-                color: Colors.white,
-                width: double.infinity,
-              ),
-              SizedBox(height: deviceHeight * 0.004),
-              Text(
-                'Today',
-                style: TextStyle(color: Colors.blueGrey),
-                textAlign: TextAlign.left,
-              ),
-              Container(
-                height: deviceHeight * 0.2,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+        body: _isLoading
+            ? LoadingScreenOverview()
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        WeatherCard(),
-                        WeatherCard(),
-                        WeatherCard(),
-                        WeatherCard(),
-                        WeatherCard(),
-                        WeatherCard(),
+                        Container(
+                            // height: deviceHeight*0.4,
+                            margin: EdgeInsets.all(30),
+                            child: Column(
+                              children: [
+                                Text(weatherDataProvider.location,
+                                    style: kCityStyle),
+                                Text(weatherDataProvider.temperature,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: deviceHeight * 0.1)),
+                                Chip(
+                                  backgroundColor: Colors.purple,
+                                  label: Text(
+                                    'Cloudy',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  elevation: 5,
+                                ),
+                              ],
+                            )),
+                        Card(
+                          elevation: 5,
+                          child: Text('Image here '),
+                        ),
                       ],
-                    )
+                    ),
+                    SizedBox(height: deviceHeight * 0.007),
+                    Card(
+                      color: Color(0xFF17242D),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            BuildWeatherContainer(
+                                icon: Icons.air_rounded,
+                                text: '${weatherDataProvider.windSpeed} km/h'),
+                            BuildWeatherContainer(
+                                icon: Icons.pin_drop_rounded,
+                                text: '${weatherDataProvider.humidity}%'),
+                            BuildWeatherContainer(
+                                icon: Icons.alarm,
+                                text: '${weatherDataProvider.airPressure} bar'),
+                            SizedBox(
+                              height: 40,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // SizedBox(height: deviceHeight * 0.06),
+                    SizedBox(height: deviceHeight * 0.02),
+                    Center(
+                      child: Text(
+                        'Today',
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
+                    ),
+                    Container(
+                      height: deviceHeight * 0.2,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Row(
+                            children: [
+                              WeatherCard(),
+                              WeatherCard(),
+                              WeatherCard(),
+                              WeatherCard(),
+                              WeatherCard(),
+                              WeatherCard(),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: deviceHeight * 0.3,
+                      child: ListView(
+                        children: buildTile(minTemps, maxTemps),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Container(
-                height: deviceHeight * 0.3,
-                child: ListView(
-                  children: [
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                    _buildListTile(text: 'Monday', maxTemp: '19 °C', minTemp: '15'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
-  }
-}
-
-class _buildListTile extends StatelessWidget {
-  const _buildListTile({
-    Key key,
-    @required this.text,
-    @required this.maxTemp,
-    @required this.minTemp,
-  }) : super(key: key);
-
-  final String text;
-  final String maxTemp;
-  final String minTemp;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      color: Color(0xFF17242D),
-      child: ListTile(
-        leading:
-            Text(text, style: TextStyle(color: Colors.white, fontSize: 20)),
-        //   title:  Container(
-        //           child: Text('icon here '),
-        //           height: 10,
-        //           color: Colors.white,
-        // ),
-        trailing:
-            // Container(
-            // width: 10,
-            // margin: EdgeInsets.only(right:20),
-            // child: Row(
-
-            //   children: [
-            Text(
-          maxTemp,
-          style: kCityStyle,
-        ),
-        // SizedBox(width:5),
-        // Text(minTemp,style: kCountryStyle,),
-        // ],
-      ),
-      // ),
-      // ),
-    );
-  }
-}
-
-class _buildWeatherContainer extends StatelessWidget {
-  const _buildWeatherContainer({
-    Key key,
-    @required this.icon,
-    @required this.text,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Row(
-      children: [
-        Icon(
-          icon,
-          color: Colors.blueGrey,
-        ),
-        Text(
-          text,
-          style: TextStyle(color: Colors.blueAccent, fontSize: 15),
-
-          // style: null,
-        )
-      ],
-    ));
   }
 }
