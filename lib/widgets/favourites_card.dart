@@ -63,7 +63,7 @@ class FavouritesCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.add,
+                        Icons.approval_rounded,
                         color: Colors.white,
                         size: 25,
                       ),
@@ -87,10 +87,11 @@ class FavouritesCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.add,
+                        Icons.air_rounded,
                         color: Colors.white,
                         size: 25,
                       ),
+                      SizedBox(width: 3,),
                       Text(
                         '${favourite.windSpeed} km/h',
                         style: TextStyle(
@@ -108,5 +109,39 @@ class FavouritesCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _BuildWeatherContainer extends StatelessWidget {
+  const _BuildWeatherContainer({
+    Key key,
+    @required this.icon,
+    @required this.text,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Row(
+      children: [
+        Icon(
+          icon,
+          color: Colors.blueGrey,
+        ),
+        SizedBox(
+          width: 3,
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 20,
+          ),
+        )
+      ],
+    ));
   }
 }

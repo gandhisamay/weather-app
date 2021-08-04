@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class LoadingScreenOverview extends StatelessWidget {
-  // const LoadingScreenOverview({ Key? key }) : super(key: key);
   var spinkit = SpinKitFadingFour(
   color: Colors.white,
   size: 50.0,
@@ -14,15 +13,6 @@ class LoadingScreenOverview extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        // gradient: LinearGradient(
-        //   colors: [
-        //     Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-        //     Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
-        //   ],
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        //   stops: [0, 1],
-        // ),
         color: Color(0xFF17242D),
       ),
       height: deviceSize.height,

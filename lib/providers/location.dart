@@ -12,7 +12,8 @@ class Location with ChangeNotifier {
   int _woeid;
   String _location;
   int _humidity;
-  String _time;
+  List<double> _minTemps = [];
+  List<double> _maxTemps = [];
 
   String get location {
     return _location;
@@ -34,9 +35,18 @@ class Location with ChangeNotifier {
     return _humidity.toString();
   }
 
-  // String get currentTimedata {
-  //   return _time;
-  // }
+  int get dayNumber {
+    var dayNum = DateTime.now().weekday;
+    return dayNum;
+  }
+
+  List<double> get minTemps5days{
+    return [..._minTemps];
+  }
+
+  List<double> get maxTemps5days{
+    return [..._maxTemps];
+  }
 
   Future<void> getLocation() async {
     var location = new loc.Location();
@@ -85,9 +95,12 @@ class Location with ChangeNotifier {
   }
 
   Future<void> getWeatherData() async {
+    // var year = date.substring(0, 4);
+    // var month = date.substring(5, 7);
+    // var day = date.substring(8, 10);
+
     final url = Uri.parse('https://www.metaweather.com/api/location/$_woeid/');
     final response = await http.get(url);
-    // print(json.decode(response.body));
     // {consolidated_weather:
     //[{id: 5295501353156608, weather_state_name: Heavy Rain, weather_state_abbr: hr,
     // wind_direction_compass: WSW, created: 2021-08-02T10:03:01.963265Z, applicable_date:
@@ -108,15 +121,14 @@ class Location with ChangeNotifier {
 
     _airPressure = wData['air_pressure'];
 
-   _humidity= wData['humidity'];
+    _humidity = wData['humidity'];
 
-   //..get time data 
-
-  //  var now =json.decode(response.body)['time'] ;
-  //  _time= DateFormat("H").format(now).toString();
-  //  print(_time);
+    for (int i = 0; i <= 4; i++) {
+      _minTemps.add(consolidatedWeather[i]['min_temp']);
+      _maxTemps.add(consolidatedWeather[i]['max_temp']);
+    }
     notifyListeners();
-  } 
+  }
 
   Future<void> combineAllData() async {
     await getLocation();

@@ -8,24 +8,32 @@ class WeatherCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Card(
-      elevation: 6,
+      elevation: 1,
       color: Color(0xFF17242D),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
-          color: Color(0xFF17242D),
-          width: 2,         
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(12))),
-        height: deviceHeight * 0.12,
+              color: Color(0xFF17242D),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        height: deviceHeight * 0.8,
         child: Column(
           children: [
-            Text(
-              '10 AM',
-              style: kCountryStyle,
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: 4,
+              ),
+              child: Text(
+                '10 AM',
+                style: kCountryStyle,
+              ),
             ),
             Container(
-              child: Text('icon here ',style: TextStyle(color:Colors.blueGrey ),),
+              child: Text(
+                'icon here ',
+                style: TextStyle(color: Colors.blueGrey),
+              ),
               height: deviceHeight * 0.12 / 2.5,
               color: Color(0xFF17242D),
             ),
