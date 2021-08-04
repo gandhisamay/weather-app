@@ -56,8 +56,9 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final minTemps = Provider.of<Location>(context).minTemps5days;
-    final maxTemps = Provider.of<Location>(context).maxTemps5days;
+    final weatherDataProvider = Provider.of<Location>(context);
+    final minTemps = weatherDataProvider.minTemps5days;
+    final maxTemps = weatherDataProvider.maxTemps5days;
 
     List<Widget> buildTile(min, max) {
       List<Widget> tiles = [];
@@ -90,8 +91,9 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                             margin: EdgeInsets.all(30),
                             child: Column(
                               children: [
-                                Text('San Fransico', style: kCityStyle),
-                                Text('18°',
+                                Text(weatherDataProvider.location,
+                                    style: kCityStyle),
+                                Text(weatherDataProvider.temperature,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: deviceHeight * 0.1)),
@@ -123,17 +125,23 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             BuildWeatherContainer(
-                                icon: Icons.air_rounded, text: '8 km/h'),
+                                icon: Icons.air_rounded,
+                                text: '${weatherDataProvider.windSpeed} km/h'),
                             BuildWeatherContainer(
-                                icon: Icons.pin_drop_rounded, text: '54 %'),
+                                icon: Icons.pin_drop_rounded,
+                                text: '${weatherDataProvider.humidity}%'),
                             BuildWeatherContainer(
-                                icon: Icons.alarm, text: '1098 bar'),
+                                icon: Icons.alarm,
+                                text: '${weatherDataProvider.airPressure} bar'),
+                            SizedBox(
+                              height: 40,
+                            ),
                           ],
                         ),
                       ),
                     ),
                     // SizedBox(height: deviceHeight * 0.06),
-                    SizedBox(height: deviceHeight * 0.004),
+                    SizedBox(height: deviceHeight * 0.02),
                     Center(
                       child: Text(
                         'Today',

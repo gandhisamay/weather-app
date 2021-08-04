@@ -7,8 +7,7 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    return Card(
-      elevation: 1,
+    return Container(
       color: Color(0xFF17242D),
       child: Container(
         decoration: BoxDecoration(
