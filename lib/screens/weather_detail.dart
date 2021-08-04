@@ -59,6 +59,8 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     final weatherDataProvider = Provider.of<Location>(context);
     final minTemps = weatherDataProvider.minTemps5days;
     final maxTemps = weatherDataProvider.maxTemps5days;
+    final weatherCardData = weatherDataProvider.weatherCardData;
+    print("Weather Card Data ${weatherDataProvider.weatherCardData}");
 
     List<Widget> buildTile(min, max) {
       List<Widget> tiles = [];
@@ -93,7 +95,7 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                               children: [
                                 Text(weatherDataProvider.location,
                                     style: kCityStyle),
-                                Text(weatherDataProvider.temperature,
+                                Text('${weatherDataProvider.temperature} °C',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: deviceHeight * 0.1)),
@@ -149,20 +151,28 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                       ),
                     ),
                     Container(
+                      margin: EdgeInsets.only(
+                        top: 5,
+                      ),
                       height: deviceHeight * 0.2,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Row(
-                            children: [
-                              WeatherCard(),
-                              WeatherCard(),
-                              WeatherCard(),
-                              WeatherCard(),
-                              WeatherCard(),
-                              WeatherCard(),
-                            ],
-                          )
+                          WeatherCard(
+                            temp: weatherCardData[0][1],
+                            time: weatherCardData[0][2],
+                            weather: weatherCardData[0][0],
+                          ),
+                          WeatherCard(
+                            temp: weatherCardData[1][1],
+                            time: weatherCardData[1][2],
+                            weather: weatherCardData[1][0],
+                          ),
+                          WeatherCard(
+                            temp: weatherCardData[2][1],
+                            time: weatherCardData[2][2],
+                            weather: weatherCardData[2][0],
+                          ),
                         ],
                       ),
                     ),
