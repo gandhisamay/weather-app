@@ -55,7 +55,7 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
 
     void initState() {
     if ( isFirstTime) {
-      Provider.of<Detail>(context, listen: false).getLocationByQuery('london').then((_) {
+      Provider.of<Detail>(context, listen: false).getLocationByQuery('mumbai').then((_) {
         setState(() {
           isLoading = false;
           isFirstTime = false;
@@ -96,12 +96,13 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     final detailDataProvider = Provider.of<Detail>(context);
        final minTemps = detailDataProvider.minTemps5days;
     final maxTemps = detailDataProvider.maxTemps5days;
-    final weatherCardData = detailDataProvider.weatherCardData;
+
+    // final weatherCardData = detailDataProvider.weatherCardData;
 
 
     // print("Weather Card Data ${weatherDataProvider.weatherCardData}");
 
-    print("Weather Card Data ${detailDataProvider.weatherCardData}");
+    // print("Weather Card Data ${detailDataProvider._weatherCardData}");
 
     List<Widget> buildTile(min, max) {
       List<Widget> tiles = [];
@@ -200,19 +201,19 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           WeatherCard(
-                            temp: weatherCardData[0][1],
-                            time: weatherCardData[0][2],
-                            weather: weatherCardData[0][0],
+                            temp: detailDataProvider.weatherCardData[0][1],
+                            time: detailDataProvider.weatherCardData[0][2],
+                            weather: detailDataProvider.weatherCardData[0][0],
                           ),
                           WeatherCard(
-                            temp: weatherCardData[1][1],
-                            time: weatherCardData[1][2],
-                            weather: weatherCardData[1][0],
+                            temp: detailDataProvider.weatherCardData[1][1],
+                            time: detailDataProvider.weatherCardData[1][2],
+                            weather: detailDataProvider.weatherCardData[1][0],
                           ),
                           WeatherCard(
-                            temp: weatherCardData[2][1],
-                            time: weatherCardData[2][2],
-                            weather: weatherCardData[2][0],
+                            temp: detailDataProvider.weatherCardData[2][1],
+                            time: detailDataProvider.weatherCardData[2][2],
+                            weather: detailDataProvider.weatherCardData[2][0],
                           ),
                         ],
                       ),

@@ -15,7 +15,6 @@ class SearchLocationScreen extends StatelessWidget {
     final favouritesCities = Provider.of<FavouriteCityProvider>(context);
     final detailProvider = Provider.of<Detail>(context);
 
-
     final searchLocationController = TextEditingController();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -48,18 +47,16 @@ class SearchLocationScreen extends StatelessWidget {
                       onSubmitted: (_) async {
                         print(searchLocationController.text);
 
+                        await detailProvider
+                            .getLocationByQuery(searchLocationController.text);
+
                         favouritesCities.addNewFavourite(
                             int.parse(detailProvider.temperature),
                             detailProvider.location,
                             int.parse(detailProvider.humidity),
                             int.parse(detailProvider.windSpeed));
 
-                        await detailProvider.getLocationByQuery(searchLocationController.text);
-
                         //write code to chnage the tab to detail screen passing the searchLocationController.text to that page
-
-
-                        
                       },
                       style: TextStyle(
                         fontSize: 20,
