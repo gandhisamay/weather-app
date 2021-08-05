@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../providers/location.dart';
 import 'package:provider/provider.dart';
+import '../providers/detail_screen_provider.dart';
 
 // import 'package:geocoding/geocoding.dart';
 // import 'package:geolocator/geolocator.dart';
@@ -55,7 +56,9 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
   Widget build(BuildContext context) {
     final weatherDataProvider = Provider.of<Location>(context);
     final deviceHeight = MediaQuery.of(context).size.height;
+    // final detailScreenProvider = Provider.of<Detail>(context,listen: false);
 
+    
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

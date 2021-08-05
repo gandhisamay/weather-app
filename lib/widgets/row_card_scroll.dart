@@ -16,6 +16,7 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
+    
     return Container(
       color: Color(0xFF17242D),
       child: Container(
@@ -46,7 +47,7 @@ class WeatherCard extends StatelessWidget {
               color: Color(0xFF17242D),
             ),
             Text(
-              temp,
+              temp.substring(0,5),
               style: kCityStyle,
             )
           ],
