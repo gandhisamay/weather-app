@@ -4,6 +4,7 @@ import 'package:flutter_complete_guide/providers/location.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
+import '../providers/detail_screen_provider.dart';
 
 class SearchLocationScreen extends StatelessWidget {
   final inputLocationController = TextEditingController();
@@ -11,7 +12,9 @@ class SearchLocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favouritesCities = Provider.of<FavouriteCityProvider>(context);
-    final locationProvider = Provider.of<Location>(context);
+    final detailProvider = Provider.of<Detail>(context);
+
+    final searchLocationController = TextEditingController();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -39,13 +42,15 @@ class SearchLocationScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextField(
-                      controller: locationProvider.inputLocationController,
+                      controller: searchLocationController,
                       onSubmitted: (_) {
-                        // print("1");
-                        // print(locationProvider.inputLocationController.text);
-                        // locationProvider.getLocationByQuery(
-                        //     locationProvider.inputLocationController.text);
-                        // favouritesCities.addNewFavourite();
+                        print(searchLocationController.text);
+
+                        favouritesCities.addNewFavourite(
+                            int.parse(detailProvider.temperature),
+                            detailProvider.location,
+                            int.parse(detailProvider.humidity),
+                            int.parse(detailProvider.windSpeed));
                       },
                       style: TextStyle(
                         fontSize: 20,

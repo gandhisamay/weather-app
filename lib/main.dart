@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/detail_screen_provider.dart';
 import 'package:flutter_complete_guide/providers/location.dart';
 import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
@@ -17,7 +18,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Location(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (ctx)=>Detail(),)
+
       ],
       child: MaterialApp(
         title: 'Weather App',
