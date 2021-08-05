@@ -15,7 +15,7 @@ class Location with ChangeNotifier {
   List<double> _minTemps = [];
   List<double> _maxTemps = [];
   // var inputLocationController = TextEditingController();
-  dynamic weatherCardData = [];
+  List<dynamic> _weatherCardData = [];
 
   String get location {
     return _location;
@@ -50,9 +50,9 @@ class Location with ChangeNotifier {
     return [..._maxTemps];
   }
 
-  // List<List<String>> get weatherCardDataMain {
-  //   return [...weatherCardData];
-  // }
+//  List<dynamic> get weatherCardData {
+//     return [..._weatherCardData];
+//   }
 
   Future<void> getLocation() async {
     var location = new loc.Location();
@@ -119,50 +119,50 @@ class Location with ChangeNotifier {
 
     _humidity = wData['humidity'];
 
-    for (int i = 0; i <= 4; i++) {
-      _minTemps.add(consolidatedWeather[i]['min_temp']);
-      _maxTemps.add(consolidatedWeather[i]['max_temp']);
-    }
+    // for (int i = 0; i <= 4; i++) {
+    //   _minTemps.add(consolidatedWeather[i]['min_temp']);
+    //   _maxTemps.add(consolidatedWeather[i]['max_temp']);
+    // }
 
-    final date = DateTime.now().toString();//2021-08-05 17:13:50.658
-    String year = date.substring(0, 4); 
-    String month = date.substring(5, 7);
-    String day = date.substring(8, 10);
-    print('$year ----$month ----$day');
-    final urlDaily = Uri.parse(
-        "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day/");
-        //put a / at the end of api
-        //https://www.metaweather.com/api/location/44418/2013/4/27/
-    final responseDaily = await http.get(urlDaily);
-    final resDaily = json.decode(responseDaily.body);
+    // final date = DateTime.now().toString();//2021-08-05 17:13:50.658
+    // String year = date.substring(0, 4); 
+    // String month = date.substring(5, 7);
+    // String day = date.substring(8, 10);
+    // print('$year ----$month ----$day');
+    // final urlDaily = Uri.parse(
+    //     "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day/");
+    //     //put a / at the end of api
+    //     //https://www.metaweather.com/api/location/44418/2013/4/27/
+    // final responseDaily = await http.get(urlDaily);
+    // final resDaily = json.decode(responseDaily.body);
     // print(resDaily);
 
-    for (int i = 0; i < 3; i++) {
-      if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
-        //also add the abbrevations to get the images url
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          // resDaily[i]["weather_state_abbr"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
-        ]);
-      } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          // resDaily[i]["weather_state_abbr"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
-        ]);
-      } else {
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          // resDaily[i]["weather_state_abbr"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${int.parse(resDaily[i]["created"].substring(11, 13))} AM',
-        ]);
-          print(resDaily[i]["created"].substring(11, 13));
-      }
-    }
+    // for (int i = 0; i < 3; i++) {
+    //   if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
+    //     //also add the abbrevations to get the images url
+    //     weatherCardData.add([
+    //       resDaily[i]["weather_state_name"],
+    //       // resDaily[i]["weather_state_abbr"],
+    //       '${resDaily[i]["the_temp"]} °C',
+    //       '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
+    //     ]);
+    //   } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
+    //     weatherCardData.add([
+    //       resDaily[i]["weather_state_name"],
+    //       // resDaily[i]["weather_state_abbr"],
+    //       '${resDaily[i]["the_temp"]} °C',
+    //       '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
+    //     ]);
+    //   } else {
+    //     weatherCardData.add([
+    //       resDaily[i]["weather_state_name"],
+    //       // resDaily[i]["weather_state_abbr"],
+    //       '${resDaily[i]["the_temp"]} °C',
+    //       '${int.parse(resDaily[i]["created"].substring(11, 13))} AM',
+    //     ]);
+    //       print(resDaily[i]["created"].substring(11, 13));
+    //   }
+    // }
 
     print("!");
     notifyListeners();

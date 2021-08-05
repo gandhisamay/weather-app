@@ -16,7 +16,7 @@ class Detail with ChangeNotifier {
   List<double> _minTemps = [];
   List<double> _maxTemps = [];
   var inputLocationController = TextEditingController();
-  dynamic weatherCardData = [];
+  List<dynamic> _weatherCardData = [];
 
   String get location {
     return _location;
@@ -50,7 +50,10 @@ class Detail with ChangeNotifier {
   List<double> get maxTemps5days {
     return [..._maxTemps];
   }
-
+  
+  List<dynamic> get weatherCardData {
+    return [..._weatherCardData];
+  }
 
   Future<void> getLocationByQuery(query) async {
     print('New function.......');
@@ -99,32 +102,38 @@ class Detail with ChangeNotifier {
      for (int i = 0; i <= 4; i++) {
       _minTemps.add(resDaily[i]['min_temp']);
       _maxTemps.add(resDaily[i]['max_temp']);
-
+       notifyListeners();
     }
     print(_minTemps);
 
     for (int i = 0; i < 3; i++) {
       if (int.parse(resDaily[i]["created"].substring(11, 13)) > 12) {
-        weatherCardData.add([
+        _weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
         ]);
+        notifyListeners();
       } else if (int.parse(resDaily[i]["created"].substring(11, 13)) == 12) {
-        weatherCardData.add([
+        _weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
         ]);
+        notifyListeners();
       } else {
-        weatherCardData.add([
+        _weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
         ]);
+        notifyListeners();
       }
+       notifyListeners();
     }
 
     notifyListeners();
   }
+
+  
 }
