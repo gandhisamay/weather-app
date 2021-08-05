@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
+import 'package:flutter_complete_guide/providers/location.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
 
 class SearchLocationScreen extends StatelessWidget {
-  // const SearchLocationScreen({ Key? key }) : super(key: key);
-
   final inputLocationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final favourites = Provider.of<FavouriteCityProvider>(context).favourites;
+    final favouritesCities = Provider.of<FavouriteCityProvider>(context);
+    final locationProvider = Provider.of<Location>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
@@ -39,8 +39,14 @@ class SearchLocationScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextField(
-                      controller: inputLocationController,
-                      onSubmitted: (_) {},
+                      controller: locationProvider.inputLocationController,
+                      onSubmitted: (_) {
+                        // print("1");
+                        // print(locationProvider.inputLocationController.text);
+                        // locationProvider.getLocationByQuery(
+                        //     locationProvider.inputLocationController.text);
+                        // favouritesCities.addNewFavourite();
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -71,22 +77,29 @@ class SearchLocationScreen extends StatelessWidget {
             SingleChildScrollView(
               child: Container(
                 height: (MediaQuery.of(context).size.height - ktabSize - 103),
-                child: GridView(
-                  padding: EdgeInsets.all(10),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //A delegate that controls the layout of the children within the [GridView].
-                    crossAxisCount: 2,
-                    childAspectRatio:
-                        1.25, //The ratio of the cross-axis to the main-axis extent of each child.),
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                  ),
-                  children: favourites
-                      .map(
-                        (e) => FavouritesCard(e),
+                child: favouritesCities.isEmpty
+                    ? Center(
+                        child: Text(
+                          "You haven't added any favourite cities",
+                          style: kCountryStyle,
+                        ),
                       )
-                      .toList(),
-                ),
+                    : GridView(
+                        padding: EdgeInsets.all(10),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          //A delegate that controls the layout of the children within the [GridView].
+                          crossAxisCount: 2,
+                          childAspectRatio:
+                              1.25, //The ratio of the cross-axis to the main-axis extent of each child.),
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                        ),
+                        children: favouritesCities.favourites
+                            .map(
+                              (e) => FavouritesCard(e),
+                            )
+                            .toList(),
+                      ),
               ),
             ),
           ],
