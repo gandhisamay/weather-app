@@ -10,6 +10,12 @@ import '../widgets/weather_container.dart';
 import '../providers/detail_screen_provider.dart';
 
 class WeatherDetailScreen extends StatefulWidget {
+
+  static const routeName = '/detail-screen';
+
+  // final String searchedCity ;
+  // WeatherDetailScreen({this.searchedCity});
+
   @override
   _WeatherDetailScreenState createState() => _WeatherDetailScreenState();
 }
@@ -48,7 +54,7 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
   
 
     void initState() {
-    if (isFirstTime) {
+    if ( isFirstTime) {
       Provider.of<Detail>(context, listen: false).getLocationByQuery('london').then((_) {
         setState(() {
           isLoading = false;
@@ -56,6 +62,15 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
         });
       });
     }
+
+    // else{
+    //   Provider.of<Location>(context).getWeatherData().then((_){
+    //     setState(() {
+    //       isLoading = false;
+    //       isFirstTime = false;
+    //     });
+    //   });
+    // }
 
     super.initState();
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
 import 'package:flutter_complete_guide/providers/location.dart';
+import 'package:flutter_complete_guide/screens/weather_detail.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class SearchLocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final favouritesCities = Provider.of<FavouriteCityProvider>(context);
     final detailProvider = Provider.of<Detail>(context);
+
 
     final searchLocationController = TextEditingController();
     return Scaffold(
@@ -43,7 +45,7 @@ class SearchLocationScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: searchLocationController,
-                      onSubmitted: (_) {
+                      onSubmitted: (_) async {
                         print(searchLocationController.text);
 
                         favouritesCities.addNewFavourite(
@@ -51,6 +53,13 @@ class SearchLocationScreen extends StatelessWidget {
                             detailProvider.location,
                             int.parse(detailProvider.humidity),
                             int.parse(detailProvider.windSpeed));
+
+                        await detailProvider.getLocationByQuery(searchLocationController.text);
+
+                        //write code to chnage the tab to detail screen passing the searchLocationController.text to that page
+
+
+                        
                       },
                       style: TextStyle(
                         fontSize: 20,
