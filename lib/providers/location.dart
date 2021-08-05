@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/widgets/row_card_scroll.dart';
 import 'package:location/location.dart' as loc;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -159,8 +158,9 @@ class Location with ChangeNotifier {
         weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
+          '${int.parse(resDaily[i]["created"].substring(11, 13))} AM',
         ]);
+          print(resDaily[i]["created"].substring(11, 13));
       }
     }
 
@@ -197,16 +197,15 @@ class Location with ChangeNotifier {
         "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day");
     final responseDaily = await http.get(urlDaily);
     final resDaily = json.decode(responseDaily.body);
-    print(resDaily);
 
     for (int i = 0; i < 3; i++) {
-      if (int.parse(resDaily[0]["created"].substring(11, 13)) > 12) {
+      if (int.parse(resDaily[i]["created"].substring(11, 13)) > 12) {
         weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
           '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
         ]);
-      } else if (int.parse(resDaily[0]["created"].substring(11, 13)) == 12) {
+      } else if (int.parse(resDaily[i]["created"].substring(11, 13)) == 12) {
         weatherCardData.add([
           resDaily[i]["weather_state_name"],
           '${resDaily[i]["the_temp"]} °C',
@@ -220,7 +219,6 @@ class Location with ChangeNotifier {
         ]);
       }
     }
-    print(int.parse(resDaily[0]["created"].substring(11, 13)));
 
     notifyListeners();
   }

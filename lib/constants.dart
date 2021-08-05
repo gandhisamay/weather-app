@@ -18,3 +18,6 @@ const TextStyle kCityStyle = TextStyle(
   fontSize: 20,
   fontFamily: 'Raleway',
 );
+
+bool isFirstTime = true;
+bool isLoading = true;
