@@ -32,27 +32,29 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     }
   }
 
-  var _isInit = false;
-  var _isLoading = true;
-
   void initState() {
-    Provider.of<Location>(context, listen: false).combineAllData().then((_) {
-      _isInit = true;
-    });
+    if (isFirstTime) {
+      Provider.of<Location>(context, listen: false).combineAllData().then((_) {
+        setState(() {
+          isLoading = false;
+          isFirstTime = false;
+        });
+      });
+    }
 
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFF17242D),
-        body: _isLoading
+        body: isLoading
             ? LoadingScreenOverview()
             : SingleChildScrollView(
                 child: Column(
