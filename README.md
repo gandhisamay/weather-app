@@ -3,11 +3,11 @@ With the weather gods, ruining most part of cricket 🙄 but if you don't want y
 
 ## UI
 <p float="left">
-  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%201.png" width="185" />
-  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%202.png" width="185" /> 
-  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%203.png" width="185" />
-  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%204.png" width="185" />
-  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%205.png" width="185" />
+  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%201.png" width="225" />
+  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%202.png" width="225" /> 
+  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%203.png" width="225" />
+  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%204.png" width="225" />
+  <img src="https://github.com/gandhisamay/weather-app/blob/3b8933ddbd8e6c35f80bdef4c97f9146dd303e04/assets/images/Weather-Screen%205.png" width="225" />
 </p>
 
 ## API
