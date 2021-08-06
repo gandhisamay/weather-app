@@ -67,9 +67,9 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                                   builder: (_) {
                                     return AlertDialog(
                                       title: Text('An error occurred!'),
-                                      content:
-                                          const Text('Some unexpected error has occurred. Try again later'),
-                                      actions:[
+                                      content: const Text(
+                                          'Some unexpected error has occurred. Try again later'),
+                                      actions: [
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.pop(context, 'OK'),
@@ -85,6 +85,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                                 int.parse(favCityData.temperature),
                                 inputLocationController.text,
                                 int.parse(favCityData.humidity),
+                                favCityData.getWeatherStateName,
                                 double.parse(favCityData.airPressure),
                               );
                             },

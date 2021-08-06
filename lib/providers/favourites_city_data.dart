@@ -13,6 +13,7 @@ class FavCityDataProvider with ChangeNotifier {
   List<double> _favMaxTemps = [];
   var inputLocationController = TextEditingController();
   dynamic favWeatherCardData = [];
+  String _weatherStateName;
 
   String get location {
     return _favLocation;
@@ -45,6 +46,10 @@ class FavCityDataProvider with ChangeNotifier {
 
   List<double> get maxTemps5days {
     return [..._favMaxTemps];
+  }
+
+  String get getWeatherStateName {
+    return _weatherStateName;
   }
 
   // List<List<String>> get favWeatherCardDataMain {

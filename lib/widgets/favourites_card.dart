@@ -34,11 +34,7 @@ class FavouritesCard extends StatelessWidget {
                   SizedBox(
                     width: 25,
                   ),
-                  Icon(
-                    Icons.add,
-                    size: 40,
-                    color: Colors.white,
-                  ),
+                  weatherVsSVG[favourite.weather],
                 ],
               ),
               SizedBox(

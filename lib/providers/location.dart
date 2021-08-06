@@ -15,6 +15,7 @@ class Location with ChangeNotifier {
   List<double> _minTemps = [];
   List<double> _maxTemps = [];
   dynamic weatherCardData = [];
+  String _weatherStateName;
 
   String get location {
     return _location;
@@ -49,9 +50,13 @@ class Location with ChangeNotifier {
     return [..._maxTemps];
   }
 
-  // List<List<String>> get weatherCardDataMain {
+  // List<List<String>> get getWeatherCardDataMain {
   //   return [...weatherCardData];
   // }
+
+  String get getWeatherStateName {
+    return _weatherStateName;
+  }
 
   Future<void> getLocation() async {
     var location = new loc.Location();
@@ -115,6 +120,8 @@ class Location with ChangeNotifier {
         json.decode(response.body)['consolidated_weather'];
     var wData = consolidatedWeather[0];
 
+    _weatherStateName = wData["weather_state_name"];
+
     double temp = wData['the_temp'];
     _temperature = temp.round();
 
@@ -159,7 +166,7 @@ class Location with ChangeNotifier {
           '${resDaily[i]["the_temp"]} °C',
           '${int.parse(resDaily[i]["created"].substring(11, 13))} AM',
         ]);
-          print(resDaily[i]["created"].substring(11, 13));
+        print(resDaily[i]["created"].substring(11, 13));
       }
     }
 

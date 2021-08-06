@@ -38,12 +38,16 @@ class WeatherCard extends StatelessWidget {
               ),
             ),
             Container(
-              child: Text(
-                'icon here ',
-                style: TextStyle(color: Colors.blueGrey),
+              margin: EdgeInsets.symmetric(
+                vertical: 10,
               ),
               height: deviceHeight * 0.12 / 2.5,
               color: Color(0xFF17242D),
+              child: SizedBox(
+                height: 50,
+                width: 50,
+                child: weatherVsSVG[weather],
+              ),
             ),
             Text(
               temp,

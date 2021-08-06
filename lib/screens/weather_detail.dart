@@ -80,34 +80,43 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                     Row(
                       children: [
                         Container(
-                            // height: deviceHeight*0.4,
-                            margin: EdgeInsets.all(30),
-                            child: Column(
-                              children: [
-                                Text(weatherDataProvider.location,
-                                    style: kCityStyle),
-                                Text(
-                                  '${weatherDataProvider.temperature} °C',
+                          // height: deviceHeight*0.4,
+                          margin: EdgeInsets.all(30),
+                          child: Column(
+                            children: [
+                              Text(weatherDataProvider.location,
+                                  style: kCityStyle),
+                              Text(
+                                '${weatherDataProvider.temperature} °C',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: deviceHeight * 0.08),
+                              ),
+                              Chip(
+                                backgroundColor: Colors.purple,
+                                label: Text(
+                                  'Cloudy',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: deviceHeight * 0.1),
-                                ),
-                                Chip(
-                                  backgroundColor: Colors.purple,
-                                  label: Text(
-                                    'Cloudy',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
+                                    color: Colors.white,
+                                    fontSize: 16,
                                   ),
-                                  elevation: 5,
                                 ),
-                              ],
-                            )),
-                        Card(
-                          elevation: 5,
-                          child: Text('Image here '),
+                                elevation: 5,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          margin: EdgeInsets.only(
+                            right: 20,
+                          ),
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: weatherVsSVG[
+                                weatherDataProvider.getWeatherStateName],
+                          ),
                         ),
                       ],
                     ),
@@ -153,17 +162,17 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                         children: [
                           WeatherCard(
                             temp: weatherCardData[0][1],
-                            time: weatherCardData[0][2],
+                            time: "6 AM",
                             weather: weatherCardData[0][0],
                           ),
                           WeatherCard(
                             temp: weatherCardData[1][1],
-                            time: weatherCardData[1][2],
+                            time: "12 PM",
                             weather: weatherCardData[1][0],
                           ),
                           WeatherCard(
                             temp: weatherCardData[2][1],
-                            time: weatherCardData[2][2],
+                            time: "6 PM",
                             weather: weatherCardData[2][0],
                           ),
                         ],
