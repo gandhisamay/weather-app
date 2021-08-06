@@ -16,6 +16,8 @@ class Location with ChangeNotifier {
   List<double> _maxTemps = [];
   dynamic weatherCardData = [];
   String _weatherStateName;
+  double _tempF;
+  double _windSpeedMilesPerHour;
 
   String get location {
     return _location;
@@ -27,6 +29,14 @@ class Location with ChangeNotifier {
 
   String get windSpeed {
     return _windSpeed.toString();
+  }
+
+  String get temperatureF {
+    return _tempF.toString();
+  }
+
+  String get windSpeedMiles {
+    return _windSpeedMilesPerHour.toString();
   }
 
   String get airPressure {
@@ -174,58 +184,20 @@ class Location with ChangeNotifier {
     notifyListeners();
   }
 
+  void changeTempUnit() {
+    _tempF = 1.8 * _temperature + 32;
+    notifyListeners();
+  }
+
+  void changeWindSpeedUnit() {
+    _windSpeedMilesPerHour = 0.62 * _windSpeed;
+    notifyListeners();
+  }
+
   Future<void> combineAllData() async {
     await getLocation();
     await getWoeid();
     await getWeatherData();
-    notifyListeners();
-  }
-
-  Future<void> getLocationByQuery(query) async {
-    final date = DateTime.now().toString();
-    String year = date.substring(0, 4);
-    String month = date.substring(5, 7);
-    String day = date.substring(8, 10);
-    final urlQuery = Uri.parse(
-        "https://www.metaweather.com/api/location/search/?query=$query");
-    final responseQuery = await http.get(urlQuery);
-    final resQuery = json.decode(responseQuery.body);
-
-    final urlLattLong = Uri.parse(
-        'https://www.metaweather.com/api/location/search/?lattlong=${resQuery[0]["latt_long"]}');
-    //https://www.metaweather.com/api/location/search/?lattlong=19.2322482,72.8434354
-    final responseLattLong = await http.get(urlLattLong);
-    final resLattLong = json.decode(responseLattLong.body);
-
-    _woeid = resLattLong[0]["woeid"];
-
-    final urlDaily = Uri.parse(
-        "https://www.metaweather.com/api/location/$_woeid/$year/$month/$day");
-    final responseDaily = await http.get(urlDaily);
-    final resDaily = json.decode(responseDaily.body);
-
-    for (int i = 0; i < 3; i++) {
-      if (int.parse(resDaily[i]["created"].substring(11, 13)) > 12) {
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
-        ]);
-      } else if (int.parse(resDaily[i]["created"].substring(11, 13)) == 12) {
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
-        ]);
-      } else {
-        weatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
-        ]);
-      }
-    }
-
     notifyListeners();
   }
 }

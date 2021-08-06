@@ -15,38 +15,49 @@ class WeatherOverviewScreen extends StatefulWidget {
 
 class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
   final textStyle1 = TextStyle(color: Colors.white, fontSize: 19);
-  final textStyle2 = TextStyle(color: Colors.white, fontSize: 16);
+  final textStyle2 = TextStyle(
+    color: Colors.white,
+    fontSize: 24,
+  );
 
-  Widget _buildListTile({String text, Function onPressed}) {
-    return ListTile(
-      leading: Text(
-        text,
-        style: textStyle1,
-      ),
-      trailing: IconButton(
-        icon: Icon(
-          Icons.arrow_forward_sharp,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          print('Button pressed');
-          onPressed();
-        },
-      ),
-    );
-  }
+  // Widget _buildListTile({String text, Function onPressed}) {
+  //   return ListTile(
+  //     leading: Text(
+  //       text,
+  //       style: textStyle1,
+  //     ),
+  //     trailing: IconButton(
+  //       icon: Icon(
+  //         Icons.arrow_forward_sharp,
+  //         color: Colors.white,
+  //       ),
+  //       onPressed: () {
+  //         print('Button pressed');
+  //         onPressed();
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _buildWeatherContainer(IconData icon, String text) {
     return Container(
         child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
-          icon,
-          color: Colors.blueGrey,
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Icon(
+            icon,
+            color: Colors.blueGrey,
+            size: 30,
+          ),
         ),
-        Text(
-          text,
-          style: textStyle2,
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            text,
+            style: textStyle2,
+          ),
         )
       ],
     ));
@@ -89,7 +100,7 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
                 backgroundColor: Colors.purple,
                 label: Text(
                   //text changes depending on time
-                  'Moonlight',
+                  weatherDataProvider.getWeatherStateName,
                   style: textStyle1,
                 ),
               ),
@@ -101,8 +112,8 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
               ),
               SizedBox(height: deviceHeight * 0.03),
               Container(
-                height: deviceHeight * 0.05,
-                child: Row(
+                height: deviceHeight * 0.3,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _buildWeatherContainer(Icons.air_rounded,
@@ -116,16 +127,16 @@ class _WeatherOverviewScreenState extends State<WeatherOverviewScreen> {
               ),
               SizedBox(height: deviceHeight * 0.05),
 
-              Container(
-                height: deviceHeight * 0.25,
-                child: Column(
-                  children: [
-                    _buildListTile(text: 'Temperature', onPressed: null),
-                    _buildListTile(text: 'Wind Speed', onPressed: null),
-                    _buildListTile(text: 'Source', onPressed: null),
-                  ],
-                ),
-              ),
+              // Container(
+              //   height: deviceHeight * 0.25,
+              //   child: Column(
+              //     children: [
+              //       _buildListTile(text: 'Temperature', onPressed: ),
+              //       _buildListTile(text: 'Wind Speed', onPressed: null),
+              //       _buildListTile(text: 'Source', onPressed: null),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

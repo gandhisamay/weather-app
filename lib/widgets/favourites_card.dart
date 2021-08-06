@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/constants.dart';
+// import 'package:flutter_complete_guide/providers/favourites_city_data.dart';
 import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
+// import 'package:provider/provider.dart';
 
-class FavouritesCard extends StatelessWidget {
+class FavouritesCard extends StatefulWidget {
   final FavouriteCity favourite;
 
   FavouritesCard(this.favourite);
+
+  @override
+  _FavouritesCardState createState() => _FavouritesCardState();
+}
+
+class _FavouritesCardState extends State<FavouritesCard> {
+  // @override
+  // void didChangeDependencies() {
+  //   Provider.of<FavCityDataProvider>(context).getLocationByQuery(fav)
+  //   super.didChangeDependencies();
+  // }
   final Color color = Colors.white10;
+
   @override
   Widget build(BuildContext context) {
+    print("City ${widget.favourite.city}");
+    print("humidity ${widget.favourite.humidity}");
+    print("weather ${widget.favourite.weather}");
+    print("temperature ${widget.favourite.temp}");
+    print("windspeed ${widget.favourite.windSpeed}");
     return GridTile(
       child: GestureDetector(
         onTap: () {},
@@ -28,22 +47,31 @@ class FavouritesCard extends StatelessWidget {
                     width: 15,
                   ),
                   Text(
-                    '${favourite.temp != null ? favourite.temp : 26} °C',
+                    '${widget.favourite.temp != null ? widget.favourite.temp : 26} °C',
                     style: kTempStyle,
                   ),
                   SizedBox(
                     width: 25,
                   ),
-                  weatherVsSVG[favourite.weather],
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 18,
+                    ),
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: weatherVsSVG[widget.favourite.weather],
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 10,
-              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  '${favourite.city != null ? favourite.city : "Mumbai"}',
+                  '${widget.favourite.city != null ? widget.favourite.city : "Mumbai"}',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 20,
@@ -53,13 +81,6 @@ class FavouritesCard extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 15.0),
-              //   child: Text(
-              //     favourite.country,
-              //     style: kCountryStyle,
-              //   ),
-              // ),
               Row(
                 children: [
                   Container(
@@ -75,7 +96,7 @@ class FavouritesCard extends StatelessWidget {
                           size: 25,
                         ),
                         Text(
-                          '${favourite.humidity != null ? favourite.humidity : 12}%',
+                          '${widget.favourite.humidity != null ? widget.favourite.humidity : 12}%',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -102,7 +123,7 @@ class FavouritesCard extends StatelessWidget {
                           width: 3,
                         ),
                         Text(
-                          '${favourite.windSpeed != null ? (favourite.windSpeed / 1000).toStringAsFixed(1) : 8} km/h',
+                          '${widget.favourite.windSpeed != null ? widget.favourite.windSpeed : 8} km/h',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

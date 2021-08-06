@@ -9,10 +9,7 @@ class FavCityDataProvider with ChangeNotifier {
   int _favWoeid;
   String _favLocation;
   int _favHumidity;
-  List<double> _favMinTemps = [];
-  List<double> _favMaxTemps = [];
   var inputLocationController = TextEditingController();
-  dynamic favWeatherCardData = [];
   String _weatherStateName;
 
   String get location {
@@ -40,14 +37,6 @@ class FavCityDataProvider with ChangeNotifier {
     return dayNum;
   }
 
-  List<double> get minTemps5days {
-    return [..._favMinTemps];
-  }
-
-  List<double> get maxTemps5days {
-    return [..._favMaxTemps];
-  }
-
   String get getWeatherStateName {
     return _weatherStateName;
   }
@@ -57,10 +46,6 @@ class FavCityDataProvider with ChangeNotifier {
   // }
 
   Future<void> getLocationByQuery(query) async {
-    final date = DateTime.now().toString();
-    String year = date.substring(0, 4);
-    String month = date.substring(5, 7);
-    String day = date.substring(8, 10);
     final urlQuery = Uri.parse(
         "https://www.metaweather.com/api/location/search/?query=$query");
     final responseQuery = await http.get(urlQuery);
@@ -71,6 +56,7 @@ class FavCityDataProvider with ChangeNotifier {
     //https://www.metaweather.com/api/location/search/?lattlong=19.2322482,72.8434354
     final responseLattLong = await http.get(urlLattLong);
     final resLattLong = json.decode(responseLattLong.body);
+    print("res query $resLattLong");
 
     _favWoeid = resLattLong[0]["woeid"];
 
@@ -89,6 +75,8 @@ class FavCityDataProvider with ChangeNotifier {
         json.decode(response.body)['consolidated_weather'];
     var wData = consolidatedWeather[0];
 
+    _weatherStateName = wData["weather_state_name"];
+
     double temp = wData['the_temp'];
     _favTemperature = temp.round();
 
@@ -98,39 +86,6 @@ class FavCityDataProvider with ChangeNotifier {
     _favAirPressure = wData['air_pressure'];
 
     _favHumidity = wData['humidity'];
-
-    for (int i = 0; i <= 4; i++) {
-      _favMinTemps.add(consolidatedWeather[i]['min_temp']);
-      _favMaxTemps.add(consolidatedWeather[i]['max_temp']);
-    }
-
-    final urlDaily = Uri.parse(
-        "https://www.metaweather.com/api/location/$_favWoeid/$year/$month/$day");
-    final responseDaily = await http.get(urlDaily);
-    final resDaily = json.decode(responseDaily.body);
-
-    for (int i = 0; i < 3; i++) {
-      if (int.parse(resDaily[i]["created"].substring(11, 13)) > 12) {
-        favWeatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)) - 12)} PM'
-        ]);
-      } else if (int.parse(resDaily[i]["created"].substring(11, 13)) == 12) {
-        favWeatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} PM'
-        ]);
-      } else {
-        favWeatherCardData.add([
-          resDaily[i]["weather_state_name"],
-          '${resDaily[i]["the_temp"]} °C',
-          '${(int.parse(resDaily[i]["created"].substring(11, 13)))} AM'
-        ]);
-
-      }
-    }
 
     notifyListeners();
   }

@@ -58,6 +58,28 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                                         listen: false)
                                     .getLocationByQuery(
                                         inputLocationController.text);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                print(favCityData.airPressure);
+                                favouritesCities.addNewFavourite(
+                                  int.parse(favCityData.temperature),
+                                  inputLocationController.text,
+                                  int.parse(favCityData.humidity),
+                                  favCityData.getWeatherStateName,
+                                  double.parse(favCityData.windSpeed),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Added to favourites!',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    duration: Duration(
+                                      seconds: 1,
+                                    ),
+                                  ),
+                                );
                               } catch (_) {
                                 setState(() {
                                   isLoading = false;
@@ -80,14 +102,6 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                                   },
                                 );
                               }
-                              print(favCityData.airPressure);
-                              favouritesCities.addNewFavourite(
-                                int.parse(favCityData.temperature),
-                                inputLocationController.text,
-                                int.parse(favCityData.humidity),
-                                favCityData.getWeatherStateName,
-                                double.parse(favCityData.airPressure),
-                              );
                             },
                             style: TextStyle(
                               fontSize: 20,
