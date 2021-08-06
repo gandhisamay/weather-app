@@ -7,8 +7,15 @@ import '../widgets/row_card_scroll.dart';
 import 'package:provider/provider.dart';
 import '../widgets/list_tile.dart';
 import '../widgets/weather_container.dart';
+import '../providers/detail_screen_provider.dart';
 
 class WeatherDetailScreen extends StatefulWidget {
+
+  static const routeName = '/detail-screen';
+
+  // final String searchedCity ;
+  // WeatherDetailScreen({this.searchedCity});
+
   @override
   _WeatherDetailScreenState createState() => _WeatherDetailScreenState();
 }
@@ -32,9 +39,23 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     }
   }
 
-  void initState() {
-    if (isFirstTime) {
-      Provider.of<Location>(context, listen: false).combineAllData().then((_) {
+  // void initState() {
+  //   if (isFirstTime) {
+  //     Provider.of<Location>(context, listen: false).combineAllData().then((_) {
+  //       setState(() {
+  //         isLoading = false;
+  //         isFirstTime = false;
+  //       });
+  //     });
+  //   }
+
+  //   super.initState();
+  // }
+  
+
+    void initState() {
+    if ( isFirstTime) {
+      Provider.of<Detail>(context, listen: false).getLocationByQuery('mumbai').then((_) {
         setState(() {
           isLoading = false;
           isFirstTime = false;
@@ -42,16 +63,35 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
       });
     }
 
+    // else{
+    //   Provider.of<Location>(context).getWeatherData().then((_){
+    //     setState(() {
+    //       isLoading = false;
+    //       isFirstTime = false;
+    //     });
+    //   });
+    // }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final weatherDataProvider = Provider.of<Location>(context);
-    final minTemps = weatherDataProvider.minTemps5days;
-    final maxTemps = weatherDataProvider.maxTemps5days;
-    final weatherCardData = weatherDataProvider.weatherCardData;
-    print("Weather Card Data ${weatherDataProvider.weatherCardData}");
+    // final weatherDataProvider = Provider.of<Location>(context);
+    // final minTemps = weatherDataProvider.minTemps5days;
+    // final maxTemps = weatherDataProvider.maxTemps5days;
+    // final weatherCardData = weatherDataProvider.weatherCardData;
+
+    final detailDataProvider = Provider.of<Detail>(context);
+       final minTemps = detailDataProvider.minTemps5days;
+    final maxTemps = detailDataProvider.maxTemps5days;
+
+    // final weatherCardData = detailDataProvider.weatherCardData;
+
+
+    // print("Weather Card Data ${weatherDataProvider.weatherCardData}");
+
+    // print("Weather Card Data ${detailDataProvider._weatherCardData}");
 
     List<Widget> buildTile(min, max) {
       List<Widget> tiles = [];
@@ -84,7 +124,7 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                             margin: EdgeInsets.all(30),
                             child: Column(
                               children: [
-                                Text(weatherDataProvider.location,
+                                Text(detailDataProvider.location,
                                     style: kCityStyle),
                                 Text(
                                   '${weatherDataProvider.temperature} °C',
@@ -121,13 +161,13 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                           children: [
                             BuildWeatherContainer(
                                 icon: Icons.air_rounded,
-                                text: '${weatherDataProvider.windSpeed} km/h'),
+                                text: '${detailDataProvider.windSpeed} km/h'),
                             BuildWeatherContainer(
                                 icon: Icons.pin_drop_rounded,
-                                text: '${weatherDataProvider.humidity}%'),
+                                text: '${detailDataProvider.humidity}%'),
                             BuildWeatherContainer(
                                 icon: Icons.alarm,
-                                text: '${weatherDataProvider.airPressure} bar'),
+                                text: '${detailDataProvider.airPressure} bar'),
                             SizedBox(
                               height: 40,
                             ),
@@ -152,19 +192,19 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           WeatherCard(
-                            temp: weatherCardData[0][1],
-                            time: weatherCardData[0][2],
-                            weather: weatherCardData[0][0],
+                            temp: detailDataProvider.weatherCardData[0][1],
+                            time: detailDataProvider.weatherCardData[0][2],
+                            weather: detailDataProvider.weatherCardData[0][0],
                           ),
                           WeatherCard(
-                            temp: weatherCardData[1][1],
-                            time: weatherCardData[1][2],
-                            weather: weatherCardData[1][0],
+                            temp: detailDataProvider.weatherCardData[1][1],
+                            time: detailDataProvider.weatherCardData[1][2],
+                            weather: detailDataProvider.weatherCardData[1][0],
                           ),
                           WeatherCard(
-                            temp: weatherCardData[2][1],
-                            time: weatherCardData[2][2],
-                            weather: weatherCardData[2][0],
+                            temp: detailDataProvider.weatherCardData[2][1],
+                            time: detailDataProvider.weatherCardData[2][2],
+                            weather: detailDataProvider.weatherCardData[2][0],
                           ),
                         ],
                       ),

@@ -4,6 +4,7 @@ import 'package:flutter_complete_guide/providers/favourites_city_provider.dart';
 import 'package:flutter_complete_guide/widgets/favourites_card.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
+import '../providers/detail_screen_provider.dart';
 
 class SearchLocationScreen extends StatefulWidget {
   @override
