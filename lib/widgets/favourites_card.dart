@@ -11,7 +11,7 @@ class FavouritesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridTile(
       child: GestureDetector(
-        onTap: (){},
+        onTap: () {},
         child: Container(
           decoration: BoxDecoration(
             color: color,
@@ -28,7 +28,7 @@ class FavouritesCard extends StatelessWidget {
                     width: 15,
                   ),
                   Text(
-                    favourite.temp.toString(),
+                    '${favourite.temp != null ? favourite.temp : 26} °C',
                     style: kTempStyle,
                   ),
                   SizedBox(
@@ -41,12 +41,21 @@ class FavouritesCard extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  favourite.city,
-                  style: kCityStyle,
+                  '${favourite.city != null ? favourite.city : "Mumbai"}',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                  ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               // Padding(
               //   padding: const EdgeInsets.only(left: 15.0),
@@ -70,7 +79,7 @@ class FavouritesCard extends StatelessWidget {
                           size: 25,
                         ),
                         Text(
-                          '${favourite.humidity}%',
+                          '${favourite.humidity != null ? favourite.humidity : 12}%',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -93,9 +102,11 @@ class FavouritesCard extends StatelessWidget {
                           color: Colors.white,
                           size: 25,
                         ),
-                        SizedBox(width: 3,),
+                        SizedBox(
+                          width: 3,
+                        ),
                         Text(
-                          '${favourite.windSpeed} km/h',
+                          '${favourite.windSpeed != null ? (favourite.windSpeed / 1000).toStringAsFixed(1) : 8} km/h',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

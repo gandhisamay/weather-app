@@ -45,17 +45,6 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
     super.initState();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final weatherDataProvider = Provider.of<Location>(context);
@@ -97,10 +86,12 @@ class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
                               children: [
                                 Text(weatherDataProvider.location,
                                     style: kCityStyle),
-                                Text('${weatherDataProvider.temperature} °C',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: deviceHeight * 0.1)),
+                                Text(
+                                  '${weatherDataProvider.temperature} °C',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: deviceHeight * 0.1),
+                                ),
                                 Chip(
                                   backgroundColor: Colors.purple,
                                   label: Text(

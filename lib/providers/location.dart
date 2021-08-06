@@ -14,7 +14,6 @@ class Location with ChangeNotifier {
   int _humidity;
   List<double> _minTemps = [];
   List<double> _maxTemps = [];
-  var inputLocationController = TextEditingController();
   dynamic weatherCardData = [];
 
   String get location {

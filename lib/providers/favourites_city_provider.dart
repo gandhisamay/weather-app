@@ -4,7 +4,7 @@ class FavouriteCity {
   int temp;
   String city;
   int humidity;
-  int windSpeed;
+  double windSpeed;
 
   FavouriteCity({
     @required this.temp,
@@ -29,7 +29,7 @@ class FavouriteCityProvider with ChangeNotifier {
     int temp,
     String city,
     int humidity,
-    int windSpeed,
+    double windSpeed,
   ) {
     if (_favourites.contains(FavouriteCity(
         temp: temp,

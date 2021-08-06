@@ -4,7 +4,7 @@ const double ktabSize = 50;
 
 const TextStyle kTempStyle = TextStyle(
   color: Colors.white,
-  fontSize: 50,
+  fontSize: 45,
   fontFamily: 'Raleway',
 );
 const TextStyle kCountryStyle = TextStyle(

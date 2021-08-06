@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/favourites_city_data.dart';
 import 'package:flutter_complete_guide/providers/location.dart';
 import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
@@ -17,7 +18,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Location(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavCityDataProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Weather App',
@@ -30,7 +34,6 @@ class _MyAppState extends State<MyApp> {
               backgroundColor: Colors.red,
             )),
         home: TabsScreen(),
-
       ),
     );
   }
