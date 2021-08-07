@@ -1,5 +1,5 @@
 # Weather-App 
-With the weather gods, ruining most part of cricket 🙄 but if you don't want your plan to be ruined plan stuff by taking a look of weather predictions initially ☺️
+With the weather gods, ruining most part of cricket 🙄 but if you don't want your plan to be ruined, plan stuff by taking a look of weather predictions initially ☺️
 
 ## UI
 <p float="left">
